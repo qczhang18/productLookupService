@@ -17,4 +17,7 @@ public class ProductLookupService {
        return productLookupDao.lookupById(queryId);
     }
 
+    public void setProductLookupDao(ProductLookupDao productLookupDao){
+        this.productLookupDao = productLookupDao;
+    }
 }
