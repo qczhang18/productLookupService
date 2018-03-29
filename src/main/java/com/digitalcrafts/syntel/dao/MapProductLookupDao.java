@@ -19,6 +19,7 @@ public class MapProductLookupDao implements ProductLookupDao{
         productIntegerMap.put(new Product(222, "222Map", 222), 222);
         productIntegerMap.put(new Product(333, "333Map", 333), 333);
     }
+
     public Product lookupById(long id) {
         Product queryProduct = null;
         for (Product product: productIntegerMap.keySet()){
