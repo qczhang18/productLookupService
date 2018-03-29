@@ -18,7 +18,8 @@ class ProductLookupServiceTest extends Specification {
 
        and: "a product lookup service which is the class under test"
        ProductLookupService productLookupService = new ProductLookupService();
-       productLookupService.setProductLookupDao(arrayProductLookupDao);
+//       productLookupService.setProductLookupDao(arrayProductLookupDao);
+       productLookupService.productLookupDao = arrayProductLookupDao;
 
        when: "we ask for the price of the product"
        Double price  = productLookupService.productLookupServiceById(111).getPrice();
