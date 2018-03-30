@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class WeatherLookupController {
 
     @RequestMapping("/weatherlookup")
-    public String productLookup(@RequestParam(value="city", required=true ) String queryCity) throws APIException {
+    public Object productLookup(@RequestParam(value="city", required=true, defaultValue = "Atlanta") String queryCity) throws APIException {
         final String OWM_APIKEY = System.getenv().get("OWMAPI");
         OWM owm = new OWM(OWM_APIKEY);
         CurrentWeather cwd = owm.currentWeatherByCityName(queryCity) ;
-        return cwd.toString();
+        return cwd;
     }
 }
