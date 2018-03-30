@@ -7,25 +7,24 @@ import spock.lang.Specification
 
 class ProductLookupServiceTest extends Specification {
 
-   def "Product service lookup by valid ID"(){
+    def "Product service lookup by valid product ID"() {
 
-       given: "a valid product ID"
-       Product sampleProduct = new Product(111,"testProduct", 234);
+        given: "a valid product"
+        Product sampleProduct = new Product(111, "testProduct", 234);
 
-       and: "a productDao that always return this product"
-       ProductLookupDao arrayProductLookupDao = Stub(ArrayProductLookupDao.class)
-       arrayProductLookupDao.lookupById(111) >> sampleProduct
+        and: "a productDao that always return this product"
+        ProductLookupDao arrayProductLookupDao = Stub(ArrayProductLookupDao.class)
+        arrayProductLookupDao.lookupById(111) >> sampleProduct
 
-       and: "a product lookup service which is the class under test"
-       ProductLookupService productLookupService = new ProductLookupService();
-//       productLookupService.setProductLookupDao(arrayProductLookupDao);
-       productLookupService.productLookupDao = arrayProductLookupDao;
+        and: "a product lookup service which is the class under test"
+        ProductLookupService productLookupService = new ProductLookupService();
+        productLookupService.productLookupDao = arrayProductLookupDao;
 
-       when: "we ask for the price of the product"
-       Double price  = productLookupService.productLookupServiceById(111).getPrice();
+        when: "we ask for the price of the product"
+        Double price = productLookupService.productLookupServiceById(111).getPrice();
 
-       then: "we retrieve product price"
-       price == 234;
-   }
+        then: "we retrieve product price"
+        price == 234;
+    }
 
 }
