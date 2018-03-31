@@ -6,7 +6,8 @@ public class Product {
     private String name;
     private double price;
 
-    public Product(){ }
+    public Product() {
+    }
 
     public Product(long id, String name, double price) {
         this.id = id;
@@ -34,7 +35,7 @@ public class Product {
         this.price = price;
     }
 
-    public double getPrice(){
-       return price;
+    public double getPrice() {
+        return price;
     }
 }

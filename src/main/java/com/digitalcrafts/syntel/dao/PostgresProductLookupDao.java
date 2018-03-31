@@ -15,7 +15,7 @@ import java.util.List;
 
 
 @Component
-public class postgresProductLookupDao implements ProductLookupDao {
+public class PostgresProductLookupDao implements ProductLookupDao {
 
     @Qualifier("dataSource")
     @Autowired

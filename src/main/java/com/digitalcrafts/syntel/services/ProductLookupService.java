@@ -15,8 +15,8 @@ public class ProductLookupService {
     @Autowired
     ProductLookupDao productLookupDao;
 
-    public Product productLookupServiceById(long queryId){
-       return productLookupDao.lookupById(queryId);
+    public Product productLookupServiceById(long queryId) {
+        return productLookupDao.lookupById(queryId);
     }
 
     public void addProduct(Product product) {

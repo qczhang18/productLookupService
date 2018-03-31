@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class MapProductLookupDao implements ProductLookupDao{
+public class MapProductLookupDao implements ProductLookupDao {
 
     Map<Product, Integer> productIntegerMap;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         productIntegerMap = new HashMap<>();
         productIntegerMap.put(new Product(111, "111Map", 111), 111);
         productIntegerMap.put(new Product(222, "222Map", 222), 222);
@@ -23,15 +23,15 @@ public class MapProductLookupDao implements ProductLookupDao{
 
     public Product lookupById(long id) {
         Product queryProduct = null;
-        for (Product product: productIntegerMap.keySet()){
-            if (product.getId()==id){
+        for (Product product : productIntegerMap.keySet()) {
+            if (product.getId() == id) {
                 queryProduct = product;
             }
         }
         return queryProduct;
     }
 
-    public void addProduct(Product product){
+    public void addProduct(Product product) {
         productIntegerMap.put(product, 1);
     }
 
