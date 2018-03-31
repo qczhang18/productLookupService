@@ -8,10 +8,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +38,7 @@ public class PostgresProductLookupDao implements ProductLookupDao {
             product = new Product();
             product.setId((Long) row.get("id"));
             product.setName((String) row.get("name"));
-            product.setPrice(Long.valueOf((Long)row.get("price")));
+            product.setPrice(Long.valueOf((Long) row.get("price")));
         }
 
         return product;
@@ -70,7 +66,7 @@ public class PostgresProductLookupDao implements ProductLookupDao {
             Product product = new Product();
             product.setId((Long) row.get("id"));
             product.setName((String) row.get("name"));
-            product.setPrice(Long.valueOf((Long)row.get("price")));
+            product.setPrice(Long.valueOf((Long) row.get("price")));
             productList.add(product);
         }
 
