@@ -3,8 +3,10 @@ package com.digitalcrafts.syntel.dao;
 import com.digitalcrafts.syntel.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -19,43 +22,29 @@ public class PostgresProductLookupDao implements ProductLookupDao {
 
     @Qualifier("dataSource")
     @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
+
+    private JdbcTemplate jdbcTemplate;
+
+    @PostConstruct
+    public void initDataSource() {
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     @Override
     public Product lookupById(long id) {
 
-        Product product = new Product();
-        String sql = "SELECT * FROM Product WHERE ID=(?)";
-        Connection connection = null;
+        Product product = null;
+        String sql = "SELECT * FROM Product WHERE ID=" + id;
 
-        try {
-            connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            preparedStatement.setLong(1, id);
-
-            ResultSet rs = preparedStatement.executeQuery();
-
-            //convert result to object
-            while (rs.next()) {
-                product.setId(rs.getInt("id"));
-                product.setName(rs.getString("name"));
-                product.setPrice(rs.getDouble("price"));
-            }
-            rs.close();
-            preparedStatement.close();
-
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+        for (Map<String, Object> row : list) {
+            product = new Product();
+            product.setId((Long) row.get("id"));
+            product.setName((String) row.get("name"));
+            product.setPrice(Long.valueOf((Long)row.get("price")));
         }
+
         return product;
     }
 
@@ -64,29 +53,10 @@ public class PostgresProductLookupDao implements ProductLookupDao {
 
         String sql = "INSERT INTO Product VALUES(?,?,?)";
 
-        Connection connection = null;
-        try {
-            connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            preparedStatement.setLong(1, product.getId());
-            preparedStatement.setString(2, product.getName());
-            preparedStatement.setDouble(3, product.getPrice());
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        jdbcTemplate.update(sql, new Object[]{product.getId(),
+                product.getName(), product.getPrice()});
     }
+
 
     @Override
     public List<Product> getProductListAll() {
@@ -95,37 +65,15 @@ public class PostgresProductLookupDao implements ProductLookupDao {
 
         String sql = "SELECT * FROM Product";
 
-        Connection connection = null;
-
-        try {
-            connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            ResultSet rs = preparedStatement.executeQuery();
-
-            //convert result to object
-            while (rs.next()) {
-                Product product = new Product();
-                product.setId(rs.getInt("id"));
-                product.setName(rs.getString("name"));
-                product.setPrice(rs.getDouble("price"));
-
-                productList.add(product);
-            }
-            rs.close();
-            preparedStatement.close();
-
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+        for (Map<String, Object> row : list) {
+            Product product = new Product();
+            product.setId((Long) row.get("id"));
+            product.setName((String) row.get("name"));
+            product.setPrice(Long.valueOf((Long)row.get("price")));
+            productList.add(product);
         }
+
         return productList;
     }
 }
