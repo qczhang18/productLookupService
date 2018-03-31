@@ -31,4 +31,12 @@ public class ArrayProductLookupDao implements ProductLookupDao{
         }
         return queryProduct;
     }
+
+    public void addProduct(Product product){
+        productList.add(product);
+    }
+
+    public List<Product> getProductListAll(){
+        return productList;
+    }
 }

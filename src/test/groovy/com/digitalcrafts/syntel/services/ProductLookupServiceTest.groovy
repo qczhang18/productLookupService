@@ -27,4 +27,25 @@ class ProductLookupServiceTest extends Specification {
         price == 234;
     }
 
+
+    def "Add a valid product through service"(){
+
+        given:  "a empty arrayList of product"
+        List<Product> productList = new ArrayList<>();
+
+        and:    "a datasource/DAO house the arrayList of product"
+        ProductLookupDao arrayProductLookupDao = new ArrayProductLookupDao();
+        arrayProductLookupDao.productList = productList;
+
+        and:    "a product service"
+        ProductLookupService productLookupService = new ProductLookupService()
+        productLookupService.productLookupDao = arrayProductLookupDao;
+
+        when:   "add a new product through service"
+        productLookupService.addProduct(new Product(111, "Valid Product", 999))
+
+        then:   "datasource/DAO increase its size"
+        productList.size() == 1;
+    }
 }
+

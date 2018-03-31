@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -28,5 +29,14 @@ public class MapProductLookupDao implements ProductLookupDao{
             }
         }
         return queryProduct;
+    }
+
+    public void addProduct(Product product){
+        productIntegerMap.put(product, 1);
+    }
+
+    @Override
+    public List<Product> getProductListAll() {
+        return null;
     }
 }
