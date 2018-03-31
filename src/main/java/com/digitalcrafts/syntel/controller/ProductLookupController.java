@@ -15,7 +15,7 @@ public class ProductLookupController {
     @Autowired
     ProductLookupService productLookupService;
 
-    @RequestMapping("/productlookup")
+    @RequestMapping("/product")
     public Product productLookup(@RequestParam(value="id", required =true ) long queryID) {
         return productLookupService.productLookupServiceById(queryID);
     }

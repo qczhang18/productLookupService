@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,7 +37,7 @@ public class postgresProductLookupDao implements ProductLookupDao {
             ResultSet rs = preparedStatement.executeQuery();
 
             //convert result to object
-            while(rs.next()){
+            while (rs.next()) {
                 product.setId(rs.getInt("id"));
                 product.setName(rs.getString("name"));
                 product.setPrice(rs.getDouble("price"));
@@ -89,6 +90,42 @@ public class postgresProductLookupDao implements ProductLookupDao {
 
     @Override
     public List<Product> getProductListAll() {
-        return null;
+
+        List<Product> productList = new ArrayList<>();
+
+        String sql = "SELECT * FROM Product";
+
+        Connection connection = null;
+
+        try {
+            connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            //convert result to object
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(rs.getInt("id"));
+                product.setName(rs.getString("name"));
+                product.setPrice(rs.getDouble("price"));
+
+                productList.add(product);
+            }
+            rs.close();
+            preparedStatement.close();
+
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return productList;
     }
 }
