@@ -36,30 +36,42 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Mandatory dependencies for using Spock -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
             <version>1.1-groovy-2.4</version>
             <scope>test</scope>
         </dependency>
-        <!-- Optional dependencies for using Spock -->
+
         <dependency> <!-- use a specific Groovy version rather than the one specified by spock-core -->
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
         </dependency>
+
         <dependency> <!-- enables mocking of classes (in addition to interfaces) -->
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency> <!-- enables mocking of classes without default constructor (together with
-				CGLIB) -->
+
+        <dependency>
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
             <version>2.5.1</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.athaydes</groupId>
             <artifactId>spock-reports</artifactId>
@@ -75,6 +87,7 @@
 
     </dependencies>
 
+
     <build>
         <plugins>
             <plugin>
@@ -82,10 +95,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Mandatory plugins for using Spock -->
             <plugin>
-                <!-- The gmavenplus plugin is used to compile Groovy code. To learn more
-                    about this plugin, visit https://github.com/groovy/GMavenPlus/wiki -->
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
                 <version>1.6</version>
@@ -98,9 +108,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Optional plugins for using Spock -->
-            <!-- Only required if names of spec classes don't match default Surefire
-                patterns (`*Test` etc.) -->
+
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
