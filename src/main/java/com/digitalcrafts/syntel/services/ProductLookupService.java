@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class ProductLookupService {
 
-    @Qualifier("arrayProductLookupDao")
+    @Qualifier("postgresProductLookupDao")
     @Autowired
     ProductLookupDao productLookupDao;
 
