@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class MapProductLookupDao implements ProductLookupDao {
+public class ProductDaoMap implements ProductDao {
 
     Map<Product, Integer> productIntegerMap;
 
@@ -21,7 +21,7 @@ public class MapProductLookupDao implements ProductLookupDao {
         productIntegerMap.put(new Product(333, "333Map", 333), 333);
     }
 
-    public Product lookupById(long id) {
+    public Product getProductById(long id) {
         Product queryProduct = null;
         for (Product product : productIntegerMap.keySet()) {
             if (product.getId() == id) {

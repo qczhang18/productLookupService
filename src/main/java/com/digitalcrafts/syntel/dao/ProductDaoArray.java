@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ArrayProductLookupDao implements ProductLookupDao {
+public class ProductDaoArray implements ProductDao {
 
     private List<Product> productList;
 
 
-    //    public ProductLookupDao(){
+    //    public ProductDao(){
     @PostConstruct
     public void init() {
         productList = new ArrayList<>();
@@ -22,7 +22,7 @@ public class ArrayProductLookupDao implements ProductLookupDao {
         productList.add(new Product(333, "333water", 2.5));
     }
 
-    public Product lookupById(long id) {
+    public Product getProductById(long id) {
         Product queryProduct = null;
         for (Product product : productList) {
             if (product.getId() == id) {

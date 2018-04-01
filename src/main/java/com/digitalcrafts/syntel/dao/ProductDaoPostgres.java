@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 @Component
-public class PostgresProductLookupDao extends JdbcDaoSupport implements ProductLookupDao {
+public class ProductDaoPostgres extends JdbcDaoSupport implements ProductDao {
 
     @Qualifier("dataSource")
     @Autowired
@@ -26,7 +26,7 @@ public class PostgresProductLookupDao extends JdbcDaoSupport implements ProductL
     }
 
     @Override
-    public Product lookupById(long id) {
+    public Product getProductById(long id) {
 
         Product product = null;
         String sql = "SELECT * FROM Product WHERE ID=" + id;
