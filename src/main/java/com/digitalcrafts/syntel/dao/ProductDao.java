@@ -4,7 +4,7 @@ import com.digitalcrafts.syntel.model.Product;
 
 import java.util.List;
 
-public interface ProductLookupDao {
+public interface ProductDao {
 
     public Product lookupById(long id);
 

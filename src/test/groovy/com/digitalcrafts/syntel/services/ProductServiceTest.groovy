@@ -1,11 +1,11 @@
 package com.digitalcrafts.syntel.services
 
-import com.digitalcrafts.syntel.dao.ArrayProductLookupDao
-import com.digitalcrafts.syntel.dao.ProductLookupDao
+import com.digitalcrafts.syntel.dao.ArrayProductDao
+import com.digitalcrafts.syntel.dao.ProductDao
 import com.digitalcrafts.syntel.model.Product
 import spock.lang.Specification
 
-class ProductLookupServiceTest extends Specification {
+class ProductServiceTest extends Specification {
 
     def "Product service lookup by valid product ID"() {
 
@@ -13,11 +13,11 @@ class ProductLookupServiceTest extends Specification {
         Product sampleProduct = new Product(111, "testProduct", 234);
 
         and: "a productDao that always return this product"
-        ProductLookupDao arrayProductLookupDao = Stub(ArrayProductLookupDao.class)
+        ProductDao arrayProductLookupDao = Stub(ArrayProductDao.class)
         arrayProductLookupDao.lookupById(111) >> sampleProduct
 
         and: "a product lookup service which is the class under test"
-        ProductLookupService productLookupService = new ProductLookupService();
+        ProductService productLookupService = new ProductService();
         productLookupService.productLookupDao = arrayProductLookupDao;
 
         when: "we ask for the price of the product"
@@ -34,11 +34,11 @@ class ProductLookupServiceTest extends Specification {
         List<Product> productList = new ArrayList<>();
 
         and:    "a datasource/DAO house the arrayList of product"
-        ProductLookupDao arrayProductLookupDao = new ArrayProductLookupDao();
+        ProductDao arrayProductLookupDao = new ArrayProductDao();
         arrayProductLookupDao.productList = productList;
 
         and:    "a product service"
-        ProductLookupService productLookupService = new ProductLookupService()
+        ProductService productLookupService = new ProductService()
         productLookupService.productLookupDao = arrayProductLookupDao;
 
         when:   "add a new product through service"

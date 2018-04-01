@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 @Component
-public class PostgresProductLookupDao implements ProductLookupDao {
+public class PostgresProductDao implements ProductDao {
 
     @Qualifier("dataSource")
     @Autowired

@@ -4,27 +4,26 @@ import com.digitalcrafts.syntel.model.Product;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
-public class ArrayProductLookupDao implements ProductLookupDao {
+public class MapProductDao implements ProductDao {
 
-    private List<Product> productList;
+    Map<Product, Integer> productIntegerMap;
 
-
-    //    public ProductLookupDao(){
     @PostConstruct
     public void init() {
-        productList = new ArrayList<>();
-        productList.add(new Product(111, "111coke", 3.5));
-        productList.add(new Product(222, "222pepsi", 3.5));
-        productList.add(new Product(333, "333water", 2.5));
+        productIntegerMap = new HashMap<>();
+        productIntegerMap.put(new Product(111, "111Map", 111), 111);
+        productIntegerMap.put(new Product(222, "222Map", 222), 222);
+        productIntegerMap.put(new Product(333, "333Map", 333), 333);
     }
 
     public Product lookupById(long id) {
         Product queryProduct = null;
-        for (Product product : productList) {
+        for (Product product : productIntegerMap.keySet()) {
             if (product.getId() == id) {
                 queryProduct = product;
             }
@@ -33,10 +32,11 @@ public class ArrayProductLookupDao implements ProductLookupDao {
     }
 
     public void addProduct(Product product) {
-        productList.add(product);
+        productIntegerMap.put(product, 1);
     }
 
+    @Override
     public List<Product> getProductListAll() {
-        return productList;
+        return null;
     }
 }
