@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,10 @@ public class PostgresProductLookupDao extends JdbcDaoSupport implements ProductL
     @Autowired
     private DataSource dataSource;
 
-
+    @PostConstruct
+    private void initialize() {
+        setDataSource(dataSource);
+    }
 
     @Override
     public Product lookupById(long id) {
