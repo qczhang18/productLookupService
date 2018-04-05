@@ -2,28 +2,19 @@ package com.digitalcrafts.syntel.dao;
 
 import com.digitalcrafts.syntel.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
 @Component
-public class ProductDaoPostgres extends JdbcDaoSupport implements ProductDao {
+public class ProductDaoPostgres implements ProductDao {
 
-    @Qualifier("dataSource")
     @Autowired
-    private DataSource dataSource;
-
-    @PostConstruct
-    private void initialize() {
-        setDataSource(dataSource);
-    }
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public Product getProductById(long id) {
@@ -31,7 +22,7 @@ public class ProductDaoPostgres extends JdbcDaoSupport implements ProductDao {
         Product product = null;
         String sql = "SELECT * FROM Product WHERE ID=" + id;
 
-        List<Map<String, Object>> list = getJdbcTemplate().queryForList(sql);
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
         for (Map<String, Object> row : list) {
             product = new Product();
             product.setId((Long) row.get("id"));
@@ -47,7 +38,7 @@ public class ProductDaoPostgres extends JdbcDaoSupport implements ProductDao {
 
         String sql = "INSERT INTO Product VALUES(?,?,?)";
 
-        getJdbcTemplate().update(sql, new Object[]{product.getId(),
+        jdbcTemplate.update(sql, new Object[]{product.getId(),
                 product.getName(), product.getPrice()});
     }
 
@@ -59,7 +50,7 @@ public class ProductDaoPostgres extends JdbcDaoSupport implements ProductDao {
 
         String sql = "SELECT * FROM Product";
 
-        List<Map<String, Object>> list = getJdbcTemplate().queryForList(sql);
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
         for (Map<String, Object> row : list) {
             Product product = new Product();
             product.setId((Long) row.get("id"));
